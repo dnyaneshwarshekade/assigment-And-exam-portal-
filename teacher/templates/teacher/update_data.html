@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}Update your Data{% endblock title %}
+{% block css %}{% endblock css %}
+{% block body %}
+<div class="container">
+    <div class="text-center">
+        <h3>Update Your Information</h3>
+    </div>
+    <form action="/teacher/update_data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label for="fname">First Name</label>
+                    <input required type="text" class="form-control" id="fname" name="fname" placeholder="First Name"
+                        value="{{teacher.user.first_name}}">
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label for="lname">Last Name</label>
+                    <input required type="text" class="form-control" id="lname" name="lname" placeholder="Last Name"
+                        value="{{teacher.user.last_name}}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="control">Control Number</label>
+                    <input required type="text" class="form-control" id="control" name="control"
+                        placeholder="Control Number" value="{{teacher.user.username}}" disabled>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input required type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label for="cont">Contact Number</label>
+                    <input required type="text" name="cont" id="cont" class="form-control"
+                        placeholder="Contact Number" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input required type="date" name="dob" id="dob" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="col px-0">Gender: </label>
+                    <div class="col px-0">
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input required class="form-check-input" type="radio" name="gender" id="female"
+                                value="female">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input required class="form-check-input" type="radio" name="gender" id="other"
+                                value="other">
+                            <label class="form-check-label" for="other">Other</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="password">Current Password</label>
+                    <input required type="password" name="current-password" id="current-password" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="password">New Password</label>
+                    <input required type="password" name="password" id="password" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="con_password">Confirm New Password</label>
+                    <input required type="password" name="con_password" id="con_password" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <input type="submit" value="Submit" class="btn btn-info" />
+                <input type="reset" value="Clear" class="btn btn-info" />
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock body %}

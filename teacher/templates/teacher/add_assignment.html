@@ -1,0 +1,74 @@
+{% extends 'base.html'%}
+{% block title %}Add Assignment{% endblock %}
+{% block body %}
+<div class="container mt-3">
+  <h3 class="text-center">Add Assignment</h3>
+  <form action="" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="class">Class</label>
+          <select class="form-control" onchange="changeSub()" name="class" id="class">
+            <option disabled selected>--select--</option>
+            {% for class in classes %}
+            <option value="{{class.class_name}}">{{class.class_name}}</option>  
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select class="form-control" name="subject" id="subject">
+            <option disabled selected>--select--</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="last_date">Last Date</label>
+          <input class="form-control" type="date" name="last_date" id="last_date" placeholder="Last Date"/>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="type">Assignment Type</label>
+          <select name="type" id="type" class="form-control">
+            <option disabled selected>--select--</option>
+            <option>MCQ</option>
+            <option>File Uplpad</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group text-center">
+          <input class="btn btn-primary" type="submit" name="" id="submit" value="Submit" />
+        </div>        
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
+{% block script %}
+  <script>
+    function changeSub(){
+      var class_name = document.getElementById("class").value;
+      var sub_select = document.getElementById("subject");
+      for(i=sub_select.options.length;i>=1;i--){
+        sub_select.options[i] = null;
+      }
+      {% for subject in subjects %}
+        if(class_name == "{{subject.class_name}}"){
+          var option = new Option("{{subject.subject_name|safe}}","{{subject.subject_name|safe}}");
+          sub_select.add(option,undefined);
+        }
+      {% endfor %}
+    }
+  </script>
+{% endblock script %}

@@ -1,0 +1,477 @@
+{% extends 'adminportal/adminbase.html' %}
+{% block title %}Admin Portal{% endblock title %}
+{% block css %}
+<style>
+    td {
+        min-width: 100px;
+    }
+
+    .search-bar {
+        width: 50%;
+    }
+
+    #add-class,
+    #add-subject,
+    #add-student,
+    #add-teacher {
+        display: none;
+    }
+
+    #hide-add-class,
+    #hide-add-subject,
+    #hide-add-student,
+    #hide-add-teacher {
+        display: none;
+    }
+
+    section {
+        padding: 30px 0;
+    }
+
+    @media (max-width: 576px) {
+        .search-bar {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock css %}
+{% block body %}
+<div class="container-fluid">
+    <h2 class="text-center text-warning">Welcome to Admin Portal</h2>
+</div>
+<section id="students" class="my-5 bg-light">
+    <div class="container">
+        <div class="head d-flex justify-content-between align-items-center">
+            <h3>Students</h3>
+            <div class="filter">
+                <form action="{% url 'adminportal' %}" method="get">
+                    <div class="row">
+                        <div class="col-6 py-0 pr-0">
+                            <select name="filter-students" class="custom-select custom-select-sm w-100"
+                                id="filter-students">
+                                <option>All</option>
+                                {% for class in classes %}
+                                <option>{{class.class_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-6 py-0">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Filter">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <form action="{% url 'adminportal' %}" method="get">
+            <div class="row my-3">
+                <div class="col-lg-11 col-md-11 col-sm-12">
+                    <input type="text" class="form-control form-control-sm search-bar ml-auto" name="search-student"
+                        placeholder="Search Student by Name or Control No">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12">
+                    <button type="submit" class="btn btn-sm btn-info mr-auto search-btn"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        {% if students.count == 0 %}
+        <h4 class="text-center">No Data Found</h4>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Roll No.</th>
+                        <th>Class</th>
+                        <th>Control No.</th>
+                        <th>Date Of Birth</th>
+                        <th>Contact No.</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th colspan="2" class="text-center">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <form action="/adminportal/save_student/{{student.pk}}" method="post">
+                            {% csrf_token %}
+                            <th>{{forloop.counter}}</th>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="first-name" value="{{student.user.first_name}}"></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="last-name" value="{{student.user.last_name}}"></td>
+                            <td><input type="text" class="form-control form-control-sm" name="roll-no"
+                                    value="{{student.s_roll}}"></td>
+                            <td style="min-width: 100px;"><select name="class{{student.pk}}"
+                                    class="custom-select custom-select-sm" id="class{{student.pk}}">
+                                    {% for class in classes %}
+                                    <option {% if student.s_class == class %}selected{% endif %}>{{class.class_name}}
+                                    </option>
+                                    {% endfor %}
+                                </select></td>
+                            <td><input type="text" name="control" class="form-control form-control-sm"
+                                    value="{{student.user.username}}"></td>
+                            <td style="min-width: 200px;"><input type="date" name="dob"
+                                    class="form-control form-control-sm" value="{{student.s_dob|date:"Y-m-d"}}"></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="contact" value="{{student.s_contact}}"></td>
+                            <td style="min-width: 200px;"><input type="text" class="form-control form-control-sm"
+                                    name="email" value="{{student.user.email}}"></td>
+                            <td><select name="gender{{student.pk}}" class="custom-select custom-select-sm"
+                                    id="s-gender{{student.pk}}">
+                                    <option {% if student.s_gender|lower == "male" %}selected{% endif %}>Male</option>
+                                    <option {% if student.s_gender|lower == "female" %}selected{% endif %}>Female</option>
+                                </select></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                            <td><a href="/adminportal/delete_student/{{student.pk}}"
+                                    onclick="return confirm('Are you sure To delete {{student.user.first_name}}?');"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                    <tr id="add-student">
+                        <form action="{% url 'add_student' %}" method="post">
+                            {% csrf_token %}
+                            <th>+</th>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="first-name"></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="last-name"></td>
+                            <td><input type="text" class="form-control form-control-sm" name="roll-no"></td>
+                            <td style="min-width: 100px;"><select name="class" class="custom-select custom-select-sm"
+                                    id="class">
+                                    <option selected disabled>Select</option>
+                                    {% for class in classes %}
+                                    <option>{{class.class_name}}</option>
+                                    {% endfor %}
+                                </select></td>
+                            <td><input type="text" name="control" class="form-control form-control-sm"></td>
+                            <td style="min-width: 200px;"><input type="date" name="dob" class="form-control form-control-sm" disabled></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm" name="contact" disabled></td>
+                            <td style="min-width: 200px;"><input type="text" class="form-control form-control-sm" name="email" disabled></td>
+                            <td><select name="gender{{student.pk}}" class="custom-select custom-select-sm" id="s-gender{{student.pk}}" disabled>
+                                    <option {% if student.s_gender|lower == "male" %}selected{% endif %}>Male</option>
+                                    <option {% if student.s_gender|lower == "female" %}selected{% endif %}>Female</option>
+                                </select>
+                            </td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-sm btn-info my-2" onclick="addStudent()" style="width: 50px;"><i
+                class="fa fa-plus"></i></button>
+        <button class="btn btn-sm btn-info my-2" id="hide-add-student" onclick="hideAddStudent()"
+            style="width: 50px;"><i class="fa fa-angle-double-up" style="font-weight:bold;"></i></button>
+        {% endif %}
+    </div>
+</section>
+<section id="teachers" class="my-5">
+    <div class="container">
+        <h3>Teachers</h3>
+        <form action="{% url 'adminportal' %}" method="get">
+            <div class="row my-3">
+                <div class="col-lg-11 col-md-11 col-sm-12">
+                    <input type="text" class="form-control form-control-sm search-bar ml-auto" name="search-teacher"
+                        placeholder="Search Teacher by Name or Control No">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12">
+                    <button type="submit" class="btn btn-sm btn-info mr-auto search-btn"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        {% if teachers.count == 0 %}
+        <h4 class="text-center">No Data Found</h4>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Control No.</th>
+                        <th>Date Of Birth</th>
+                        <th>Contact No.</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th colspan="2" class="text-center">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <form action="/adminportal/save_teacher/{{teacher.pk}}" method="post">
+                            {% csrf_token %}
+                            <th>{{forloop.counter}}</th>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="first-name" value="{{teacher.user.first_name}}"></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="last-name" value="{{teacher.user.last_name}}"></td>
+                            <td><input type="text" class="form-control form-control-sm" name="control"
+                                    value="{{teacher.user.username}}"></td>
+                            <td style="min-width: 120px;"><input type="date" class="form-control form-control-sm"
+                                    name="dob" value="{{teacher.t_dob|date:"Y-m-d"}}"></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="contact" value="{{teacher.t_contact}}"></td>
+                            <td style="min-width: 200px;"><input type="text" class="form-control form-control-sm"
+                                    name="email" value="{{teacher.user.email}}"></td>
+                            <td><select name="gender{{teacher.pk}}" class="custom-select custom-select-sm"
+                                    id="t-gender{{teacher.pk}}">
+                                    <option {% if teacher.t_gender|lower == "male" %}selected{%endif%}>Male</option>
+                                    <option {% if teacher.t_gender|lower == "female" %}selected{%endif%}>Female</option>
+                                </select></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                            <td><a href="/adminportal/delete_teacher/{{teacher.pk}}"
+                                    onclick="return confirm('Are you sure want to delete {{teacher.user.first_name}}?');"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                    <tr id="add-teacher">
+                        <form action="{% url 'add_teacher' %}" method="post">
+                            {% csrf_token %}
+                            <th>+</th>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="first-name"></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm"
+                                    name="last-name"></td>
+                            <td><input type="text" class="form-control form-control-sm" name="control"></td>
+                            <td style="min-width: 120px;"><input type="date" class="form-control form-control-sm" name="dob" disabled></td>
+                            <td style="min-width: 150px;"><input type="text" class="form-control form-control-sm" name="contact" disabled></td>
+                            <td style="min-width: 200px;"><input type="text" class="form-control form-control-sm" name="email" disabled></td>
+                            <td><select name="gender" class="custom-select custom-select-sm"
+                                    id="t-gender" disabled>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-sm btn-info my-2" onclick="addTeacher()" style="width: 50px;"><i
+                class="fa fa-plus"></i></button>
+        <button class="btn btn-sm btn-info my-2" id="hide-add-teacher" onclick="hideAddTeacher()"
+            style="width: 50px;"><i class="fa fa-angle-double-up" style="font-weight:bold;"></i></button>
+        {% endif %}
+    </div>
+</section>
+<section id="classes" class="my-5 bg-light">
+    <div class="container">
+        <h3>Classes</h3>
+        <form action="{% url 'adminportal' %}" method="get">
+            <div class="row my-3">
+                <div class="col-lg-11 col-md-11 col-sm-12">
+                    <input type="text" class="form-control form-control-sm search-bar ml-auto" name="search-class"
+                        placeholder="Search Class by Name">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12">
+                    <button type="submit" class="btn btn-sm btn-info mr-auto search-btn"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        {% if classes.count == 0 %}
+        <h4 class="text-center">No Data Found</h4>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Class</th>
+                        <th>Capacity</th>
+                        <th colspan="2" class="text-center">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for class in classes %}
+                    <tr>
+                        <form action="/adminportal/save_class/{{class.pk}}" method="post">
+                            {% csrf_token %}
+                            <th>{{forloop.counter}}</th>
+                            <td><input type="text" class="form-control form-control-sm" name="class-name"
+                                    value="{{class.class_name}}"></td>
+                            <td><input type="text" class="form-control form-control-sm" name="strength"
+                                    value="{{class.strength}}"></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                            <td><a href="/adminportal/delete_class/{{class.pk}}"
+                                    onclick="return confirm('Are YOu sure Want to delete {{class.class_name}}?');"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                    <tr id="add-class">
+                        <form action="/adminportal/add_class" method="post">
+                            {% csrf_token %}
+                            <th>+</th>
+                            <td><input type="text" class="form-control form-control-sm" name="class-name"></td>
+                            <td><input type="text" class="form-control form-control-sm" name="strength"></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                            <td><a href="/adminportal/delete_class/{{class.pk}}"
+                                    onclick="return confirm('Are YOu sure Want to delete {{class.class_name}}?');"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-sm btn-info my-2" onclick="addClass()" style="width: 50px;"><i
+                class="fa fa-plus"></i></button>
+        <button class="btn btn-sm btn-info my-2" id="hide-add-class" onclick="hideAddClass()" style="width: 50px;"><i
+                class="fa fa-angle-double-up" style="font-weight:bold;"></i></button>
+        {% endif %}
+    </div>
+</section>
+<section id="subjects" class="my-5">
+    <div class="container">
+        <div class="head d-flex justify-content-between align-items-center">
+            <h3>Subjects</h3>
+            <div class="filter">
+                <form action="{% url 'adminportal' %}" method="get">
+                    <div class="row">
+                        <div class="col-6 py-0 pr-0">
+                            <select name="filter-subjects" class="custom-select custom-select-sm w-100"
+                                id="filter-subjects">
+                                <option>All</option>
+                                {% for class in classes %}
+                                <option>{{class.class_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-6 py-0">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Filter">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <form action="{% url 'adminportal' %}" method="get">
+            <div class="row my-3">
+                <div class="col-lg-11 col-md-11 col-sm-12">
+                    <input type="text" class="form-control form-control-sm search-bar ml-auto" name="search-subject"
+                        placeholder="Search Subject by Name">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12">
+                    <button type="submit" class="btn btn-sm btn-info mr-auto search-btn"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        {% if subjects.count == 0 %}
+        <h4 class="text-center">No Data Found</h4>
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Subject</th>
+                        <th>Class</th>
+                        <th colspan="2" class="text-center">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <form action="/adminportal/save_subject/{{subject.pk}}" method="post">
+                            {% csrf_token %}
+                            <th>#</th>
+                            <td><input type="text" class="form-control form-control-sm" name="subject-name"
+                                    value="{{subject.subject_name}}"></td>
+                            <td><select name="class{{subject.pk}}" class="custom-select custom-select-sm"
+                                    id="class{{subject.pk}}">
+                                    {% for class in classes %}
+                                    <option {% if subject.class_name == class %}selected{% endif %}>{{class.class_name}}
+                                    </option>
+                                    {% endfor %}
+                                </select></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                            <td><a href="/adminportal/delete_subject/{{subject.pk}}"
+                                    onclick="return confirm('Are you sure want to delete {{subject.subject_name}}?');"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                    <tr id="add-subject">
+                        <form action="/adminportal/add_subject" method="post">
+                            {% csrf_token %}
+                            <th>+</th>
+                            <td><input type="text" class="form-control form-control-sm" name="subject-name"></td>
+                            <td><select name="class" class="custom-select custom-select-sm" id="class">
+                                    {% for class in classes %}
+                                    <option>{{class.class_name}}</option>
+                                    {% endfor %}
+                                </select></td>
+                            <td><input type="submit" class="btn btn-sm btn-info" value="Save"></td>
+                            <td><a href="/adminportal/delete_class/{{class.pk}}"
+                                    onclick="return confirm('Are YOu sure Want to delete {{class.class_name}}?');"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-sm btn-info my-2" onclick="addSubject()" style="width: 50px;"><i
+                class="fa fa-plus"></i></button>
+        <button class="btn btn-sm btn-info my-2" id="hide-add-subject" onclick="hideAddSubject()"
+            style="width: 50px;"><i class="fa fa-angle-double-up" style="font-weight:bold;"></i></button>
+        {% endif %}
+    </div>
+</section>
+{% endblock body %}
+{% block script %}
+<script>
+    function addStudent(){
+        document.getElementById('add-student').style.display = "table-row";
+        document.getElementById('hide-add-student').style.display = "initial";
+    }
+
+    function addTeacher(){
+        document.getElementById('add-teacher').style.display = "table-row";
+        document.getElementById('hide-add-teacher').style.display = "initial";
+    }
+
+    function addClass() {
+        document.getElementById('add-class').style.display = "table-row";
+        document.getElementById('hide-add-class').style.display = "initial";
+    }
+
+    function addSubject() {
+        document.getElementById('add-subject').style.display = "table-row";
+        document.getElementById('hide-add-subject').style.display = "initial";
+    }
+
+    function hideAddStudent(){
+        document.getElementById('add-student').style.display = "none";
+        document.getElementById('hide-add-student').style.display = "none";
+    }
+
+    function hideAddTeacher(){
+        document.getElementById('add-teacher').style.display = "none";
+        document.getElementById('hide-add-teacher').style.display = "none";
+    }
+
+    function hideAddClass() {
+        document.getElementById('add-class').style.display = "none";
+        document.getElementById('hide-add-class').style.display = "none";
+    }
+
+    function hideAddSubject() {
+        document.getElementById('add-subject').style.display = "none";
+        document.getElementById('hide-add-subject').style.display = "none";
+    }
+</script>
+{% endblock script  %}

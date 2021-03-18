@@ -1,0 +1,25 @@
+#table{
+	background-color:black;
+	border-color:#8bf7f7 ;
+	color: white;
+}
+
+h2{
+	text-align: center;
+	color: white;
+	font-family: cursive;
+}
+
+body{
+	background-color: black;
+}
+
+#td{
+	color: #2730db;
+	text-align: center;
+}
+.light{
+	font-size: 20px;
+	background-color: skyblue;
+	color: white;
+}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}{{request.user.first_name}} {{request.user.last_name}}{% endblock %}
+{% block body %}
+<div class="container mt-3">
+  <h3>{{request.user.first_name}} {{request.user.last_name}}</h3>
+  <div class="assignments">
+    <h2 class="text-center">Assignments</h2>
+    {% if assignments %}
+    <div class="table-responsive-xl">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Upload</th>
+            <th scope="col">Class</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Type</th>
+            <th scope="col" colspan="4">Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for assignment in assignments %}
+          <tr>
+            <form action="/teacher/update_due_date/{{assignment.pk}}" method="post">
+              {% csrf_token %}
+              <th scope="row">{{forloop.counter}}</th>
+              {% load humanize %}
+              <td>{{assignment.date | naturaltime}}</td>
+              <td>{{assignment.ass_class}}</td>
+              <td>{{assignment.subject.subject_name}}</td>
+              <td><input type="date" class="form-control form-control-sm" onchange="enableSubmit({{assignment.pk}})" value="{{assignment.last_date|date:"Y-m-d"}}" name="due-date"></td>
+              <td>{{assignment.ass_type}}</td>
+              <td>
+                <input type="submit" class="btn btn-sm btn-info" id="submit{{assignment.pk}}"  disabled value="Save">
+              </td>
+              <td>
+                {% load app_tags %}
+                {% if assignment.last_date|isActive %}
+                <a href="assignment/{{assignment.slug}}" class="btn-sm btn-primary" role="button" tabindex="-1"
+                  aria-disabled="true">Edit</a>
+                {% else %}
+                <button href="#" class="btn btn-sm btn-secondary" disabled>Edit</button>
+                {% endif %}
+              </td>
+              <td>
+                <a href="/teacher/assignment_status/{{assignment.slug}}" class="btn-sm btn-success">Status</a>
+              </td>
+              <td>
+                <a href="#" data-toggle="modal" data-target="#delete-confirm{{assignment.pk}}"
+                  class="btn-sm btn-danger">Delete</a>
+              </td>
+            </form>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <h4>no assignments</h4>
+    {% endif %}
+  </div>
+</div>
+<!-- MODAL FRAME -->
+{% for assignment in assignments %}
+<div class="modal fade" id="delete-confirm{{assignment.pk}}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are You Sure want to Delete this Assignment
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a type="button" class="btn btn-primary" href="delete_assignment/{{assignment.slug}}">Sure</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+{% block script %}
+  <script>
+    function enableSubmit(id){
+      document.getElementById('submit'+id).disabled = false;
+    }
+  </script>
+{% endblock script %}

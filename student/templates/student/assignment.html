@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}{{assignment.topic}}{% endblock %}
+{% block body %}
+<div class="container mt-3">
+  <h3>Teacher : {{assignment.teacher.first_name}} {{assignment.teacher.last_name}}</h3>
+  <h3>Subject : {{assignment.subject.subject_name}}</h3>
+  <h3>Last Date : {{assignment.last_date}}</h3>
+  {% if assignment.ass_type == 'MCQ' %}
+  <div id="mcq">
+    <div class="questions mt-5">
+      <h3 class="text-center">Multiple Choice Questions</h3>
+      {% for question in mcqs %}
+      <form action="/student/mcq_result/{{assignment.slug}}" method="post" accept-charset="utf-8" class="mt-3">
+        {% csrf_token %}
+        <div class="px-3 border border-dark my-2">
+          <div class="form-row">
+            <div class="col-12 col-sm-12 col-md-12">
+              <div class="row">
+                <div class="col-1 mx-0 px-0  text-center">
+                  {{forloop.counter}}.
+                </div>
+                <div class="col-11 mx-0 px-0 ">
+                  {{question.que | safe }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+              <div class="custom-control custom-radio custom-control-inline ">
+                <input type="radio" name="ans{{question.pk}}" id="id_{{question.opt1}}" value="{{question.opt1}}" class="custom-control-input" />
+                <label for="id_{{question.opt1}}" class="custom-control-label">{{question.opt1}}</label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="ans{{question.pk}}" id="id_{{question.opt2}}" value="{{question.opt2}}" />
+                <label for="id_{{question.opt2}}" class="custom-control-label">{{question.opt2}}</label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="ans{{question.pk}}" id="id_{{question.opt3}}" value="{{question.opt3}}" />
+                <label for="id_{{question.opt3}}" class="custom-control-label">{{question.opt3}}</label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="ans{{question.pk}}" id="id_{{question.opt4}}" value="{{question.opt4}}" />
+                <label for="id_{{question.opt4}}" class="custom-control-label">{{question.opt4}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="row mt-3">
+          <div class="col text-center">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div id="file-assignment">
+    <div class="questions">
+      <h3 class="text-center">Upload Files</h3>
+      <form action="/student/file_upload/{{assignment.slug}}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for questions in file_ass %}
+        <div class="row border border-dark my-3">
+          <div class="col">
+            <div class="row">
+              <div class="col-1 mx-0 px-0 text-center">
+                {{forloop.counter}}
+              </div>
+              <div class="col-11 mx-0 px-0">
+                {{questions.desc | safe}}
+              </div>
+            </div>
+            <div class="row my-4">
+              <div class="col">
+                <div class="custom-file w-50">
+                  <input type="file" class="custom-file-input" name="file{{questions.pk}}" onchange="dispName({{questions.pk}})" id="file{{questions.pk}}">
+                  <label class="custom-file-label" id="file-name{{questions.pk}}" for="customFile">Choose file</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="row">
+          <div class="col text-center">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% endif %}
+</div>
+
+{% endblock %}
+{% block script %}
+  <script>
+    function dispName(id){
+      var fileName = document.getElementById("file"+id).files[0].name;
+      document.getElementById("file-name"+id).innerText = fileName;
+    }
+  </script>
+{% endblock script %}

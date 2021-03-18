@@ -1,0 +1,18 @@
+Virtualization is software that separates physical infrastructures to create
+various dedicated resources. It is the fundamental technology that powers
+cloud computing.
+The technology behind virtualization is known as a virtual machine monitor
+(VMM) or virtual manager, which separates compute environments from the
+actual physical infrastructure.
+Virtualization makes servers, workstations, storage and other systems
+independent of the physical hardware layer. This is done by installing a
+Hypervisor on top of the hardware layer, where the systems are then installed.
+There are three areas of IT where virtualization is making headroads, network
+virtualization, storage virtualization and server virtualization.
+
+Virtualization can be viewed as part of an overall trend in enterprise IT that
+includes autonomic computing, a scenario in which the IT environment will be
+able to manage itself based on perceived activity, and utility computing, in
+which computer processing power is seen as a utility that clients can pay for
+only as needed. The usual goal of virtualization is to centralize administrative
+tasks while improving scalability and work loads.

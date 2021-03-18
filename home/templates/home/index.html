@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block css %}
+    <style>
+        .carousel-indicators {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 15;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-pack: center;
+            justify-content: center;
+            padding-left: 0;
+            margin-right: 15%;
+            margin-left: 4%;
+            list-style: none;
+        }
+        .indicator li {
+            box-sizing: content-box;
+            -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+            width: 15px !important;
+            height: 15px !important;
+            border-radius: 50% !important;
+            margin: 0 15px !important;
+            text-indent: -999px;
+            cursor: pointer;
+            background-color: #fff;
+            background-clip: padding-box;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            opacity: .5;
+            transition: opacity .6s ease;
+        }
+    </style>
+{% endblock css %}
+{% block body %}
+<section id="hero">
+    <div id="carouselExampleIndicators" style="height: 570px;" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators indicator" style="width: max-content; margin-left: 75px">
+            <li data-target="#carouselExampleIndicators" style="width: 15px; height: 15px; border-radius: 50%; margin: 0 15px" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" style="width: 15px; height: 15px; border-radius: 50%; margin: 0 15px" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" style="width: 15px; height: 15px; border-radius: 50%; margin: 0 15px" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item slide-image active">
+                <img class="d-block w-100 img-fluid" src="http://www.acharyamarathecollege.in/images/slide-01-1920x810.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item slide-image">
+                <img class="d-block w-100 img-fluid" src="http://www.acharyamarathecollege.in/images/slide-02-1920x810.jpg" alt="Third slide">
+            </div>
+            <div class="carousel-item slide-image">
+                <img class="d-block w-100 img-fluid" src="http://www.acharyamarathecollege.in/images/slide-03-1920x810.jpg" alt="First slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

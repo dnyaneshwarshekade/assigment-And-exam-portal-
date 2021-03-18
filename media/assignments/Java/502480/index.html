@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Age Caldulator</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+</head>
+<body>
+	<center>
+	<h2 id="head">Age Calculator</h2>
+	<form name="form">
+		<table id ="table" align="center" border="1">
+			<tr>
+				<th></th>
+				<th>DD</th>
+				<th>MM</th>
+				<th>YYYY</th>
+			</tr>
+			<tr>
+				<td id="td">CURRENT DATE</td>
+				<td align="center"><input type="text" size="2" maxlength="2"  placeholder="DD" id="c_day" value=""></td>
+				<td align="center"><input type="text"  size="2" maxlength="2" placeholder="MM" id="c_month" value=""></td>
+				<td align="center"><input type="text"  size="4" maxlength="4" placeholder="YYYY" id="c_year" value=""></td>
+			</tr>
+			<tr>
+				<td id="td">BIRTHDATE</td>
+				<td align="center"><input type="text" name="dd" id="b_day" size="2" maxlength="2" placeholder="DD" value=""></td>
+				<td align="center"><input type="text" name="mm" id="b_month" size="2" maxlength="2" placeholder="MM" value=""></td>
+				<td align="center"><input type="text" name="yyyy" id="b_year" size="4" maxlength="4" placeholder="YYYY" value=""></td>
+			</tr>
+
+		</table>
+		<input type="button" name="Calculate" class="light" value="Calculate" onclick="cal()"> 
+		<input type="reset" name="reset" class="light"> 
+	</form>
+
+	<h2 id="age"></h2>
+
+	</center>
+	<script src="main.js"></script>
+</body>
+</html>

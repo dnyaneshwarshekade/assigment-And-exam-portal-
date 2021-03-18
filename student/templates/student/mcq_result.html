@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}Result for MCQs{% endblock %}
+{% block css %}
+<style>
+  .bar-container {
+    position: relative;
+    width: 100%;
+    height: 15px;
+    margin: 0 0;
+  }
+  .bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .progress {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: green;
+    animation: progress 1s ease-in-out forwards;
+  }
+  @keyframes progress {
+    0%{
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    100%{
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+</style>
+{% endblock css %}
+{% block body %}
+<div class="container">
+  <h3 class="text-center my-2">Result</h3>
+  <div class="marks my-2">
+    <div class="row">
+      <div class="col-lg-6 col-sm-12 col-md-6">
+        <div class="row">
+          <div class="col">
+            <h4><strong>Total Questions : </strong>
+              {{res.total_que}}</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>
+              <strong>Attemp : </strong>
+              {{res.attemp}}
+            </h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>
+              <strong>Correct : </strong>
+              {{res.correct}}
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12 col-md-6">
+        <div class="bar-container" style="height: 15px;">
+          <div class="bar bg-light" id="bar"></div>
+          <div class="progress" id="progress"></div>
+        </div>
+        <span id="show-per"></span>
+      </div>
+    </div>
+  </div>
+  {% if attemp_questions %}
+  <div class="table-responsive">
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Question</th>
+          <th class="text-center">Your Answer</th>
+          <th class="text-center">Correct Answer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for question in attemp_questions %}
+        <tr>
+          <th>{{forloop.counter}}</th>
+          <td>{{question.mcq.que|safe|slice:":20"}}</td>
+          <td class="text-center">{{question.s_ans}}</td>
+          {% if question.s_ans == question.mcq.ans %}
+          <td class="bg-success text-white text-center">{{question.mcq.ans}}</td>
+          {% else %}
+          <td class="bg-danger text-white text-center">{{question.mcq.ans}}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  var marks = {{ res.correct }};
+  var total = {{ res.total_que }};
+  var per = marks / total * 100;
+  var progress = document.getElementById("progress")
+  progress.style.width = per+"%";
+  progress.style.display = "initial";
+  console.log(marks);
+  console.log(total);
+  console.log(per);
+  document.getElementById("show-per").innerHTML = per+"%";
+  if(per<40){
+    progress.style.backgroundColor = "red";
+  }
+</script>
+{% endblock script %}

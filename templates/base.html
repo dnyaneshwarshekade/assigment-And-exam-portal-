@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- font awesome link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--summernote -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+  <!-- custom stylesheet -->
+  {% block css %}
+
+  {% endblock css %}
+  <style>
+    .top-header {
+      height: 50px;
+      background-image: -webkit-linear-gradient(-45deg, #405de6, #e1306c 50%, #ffdc80) !important;
+      color: white;
+    }
+
+    .top-header a {
+      font-size: 12px;
+      transition: 0.6s;
+    }
+
+    .top-header i {
+      color: white;
+      opacity: 0.5;
+    }
+
+    .top-header a:hover {
+      text-decoration: none;
+      opacity: 0.5;
+    }
+
+    .icon {
+      margin: 0 2px;
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon a {
+      font-size: 25px;
+      height: 100%;
+    }
+
+    .icon i {
+      opacity: 1;
+    }
+
+    .brand-header a {
+      color: black;
+    }
+
+    .brand-header a:hover {
+      text-decoration: none;
+    }
+
+    .brand-header a h4 {
+      color: #0d2d62;
+    }
+
+    .nav-active a {
+      color: #b80924;
+    }
+
+    .nav-link {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.5s;
+    }
+
+    .nav-link:hover {
+      color: #b80924;
+    }
+
+    .notifications {
+      right: 0;
+      left: auto;
+      width: max-content;
+      max-width: 90vw;
+      height: max-content;
+      max-height: 80vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .toggle-btn:hover {
+      color: #b80924;
+    }
+
+
+    @keyframes notify {
+      0% {
+        transform: scale(0);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 576px) {
+
+      .top-header,
+      .brand-header {
+        display: none;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+
+      .top-header,
+      .brand-header {
+        display: none !important;
+      }
+    }
+
+
+    @media (min-width: 992px) {
+      .brand {
+        display: none;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .brand {
+        display: none;
+      }
+    }
+  </style>
+  <!-- custom javascript -->
+</head>
+
+<body>
+  {% load extras %}
+  <header>
+    <div class="top-header container-fluid">
+      <div class="row h-100">
+        <div class="col-6 d-flex  align-items-center">
+          <i class="fa fa-map-marker"></i>
+          <a href="http://www.acharyamarathecollege.in/" class="text-white ml-3">Chembur Trombay Education Society's N.G. Acharya And D.K.Marathe College </a>
+        </div>
+        <div class="col-6 ">
+          <div class="ml-auto h-100 d-flex align-items-center justify-content-end">
+            <i class="fa fa-sign-in"></i>
+            <a href="http://www.acharyamarathecollege.in/contact_us" class="text-white ml-1 mr-3">Contact us</a>
+            <div class="icon rounded-circle" style="background-color: #395b98;">
+              <a href="https://www.facebook.com/AMCollegeChemburOfficial/" target="_blank">
+                <i class="fa fa-facebook"></i>
+              </a>
+            </div>
+            <div class="icon rounded-circle" style="background-color: #2ca7e0;">
+              <a href="https://twitter.com/AcharyaMarathe" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+            <div class="icon rounded-circle" style="background-color: #d95139;">
+              <a href="https://www.youtube.com/channel/UCWsdNzMJRMVl7prby6IPWxg" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa fa-google"></i>
+              </a>
+            </div>
+            <div class="icon rounded-circle"
+              style="background-image: linear-gradient(-45deg,#ffdc80,#e1306c 50%,#405de6);">
+              <a href="https://www.instagram.com/ngacharyadkmarathecollege/?hl=en" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="brand-header bg-light">
+      <a href="{% url 'index' %}">
+        <div class="container py-3">
+          <div class="row h-100">
+            <div class="col-2 my-auto px-0 text-right">
+              <img src="https://www.acharyamarathecollege.in/images/logo-170x172.png" style="height: 90px; width: 90px;"
+                alt="logo1">
+            </div>
+            <div class="col-8 text-center">
+              <h4>Assigments And Exam Portal</h4>
+              <h2><strong>COMPUTER SCIENCE AND INFORMATION TECHNOLOGY DEPARTMENT </strong></h2>
+            </div>
+            <div class="col-2 px-0 text-left">
+              <img class="my-auto" src="http://www.acharyamarathecollege.in/images/logo-ctes-170x172.png"
+                style="height: 90px; width: 90px;" alt="logo2">
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-light">
+      {% load static %}
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+        style="outline: none;">
+        <i class="fa fa-bars toggle-btn"></i>
+      </button>
+      <a class="navbar-brand text-dark brand text-left mr-auto" href="#">N.G. Acharya College</a>
+      {% if request.user|has_group:"Student" %}
+      <div class="dropdown d-lg-none show">
+        <a class="dropdown-toggle nav-link" style="width: fit-content; " href="#" role="button" id="dropdownMenuLink"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-bell"></i>
+        </a>
+
+        <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuLink">
+          {% if notifications %}
+
+          {% for notification in notifications %}
+          <div class="row">
+            <div class="col-12">
+              <h5><a href="/student/assignment/{{notification.assignment.slug}}" class="nav-link">New Assignment for
+                  {{notification.assignment.subject.subject_name}} by {{notification.assignment.teacher.first_name}}
+                  {{notification.assignment.teacher.last_name}}</a></h5>
+              {% load humanize %}
+              <div class="col py-0 my-0 text-right"><small>{{notification.date_filled|naturaltime}}</small></div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <h5 class="text-center">No Notifications</h5>
+          {% endif %}
+        </div>
+      </div>
+      {% elif request.user|has_group:"Teacher" %}
+      <div class="d-lg-none">
+        <a href="{% url 'add_assignment'%}" class="nav-link m-0 p-0" style="width: 0;"><i class="fa fa-plus"></i></a>
+      </div>
+      <div class="dropdown d-lg-none show">
+        <a class="dropdown-toggle nav-link ml-2 pr-0" style="width: fit-content; " href="#" role="button" id="dropdownMenuLink"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-bell"></i>
+        </a>
+
+        <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuLink">
+          {% if notifications %}
+          {% for notification in notifications %}
+          <div class="row">
+            <div class="col-12">
+              <h5><a href="/teacher/assignment_status/{{notification.assignment.slug}}"
+                  class="nav-link">{{notification.student.first_name}} {{notification.student.last_name}} submited
+                  {{notification.assignment.subject.subject_name}} assignment of
+                  {{notification.assignment.ass_class}}</a></h5>
+              {% load humanize %}
+              <div class="col py-0 my-0 text-right"><small>{{notification.date_filled|naturaltime}}</small></div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <h5 class="text-center">No Notifications</h5>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item {% if request.get_full_path == '/' %}nav-active{% endif %}">
+            <a class="nav-link" href="{% url 'index'%}">Home <span class="sr-only">(current)</span></a>
+          </li>
+
+          {% if request.user.is_authenticated %}
+          <li
+            class="nav-item dropdown {% if request.get_full_path == '/student/' or request.get_full_path == '/teacher/' %}nav-active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              {{request.user.first_name}} {{request.user.last_name}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+              {% if request.user|has_group:"Student" %}
+              <a class="dropdown-item text-dark" href="#">Assignments</a>
+              <a class="dropdown-item text-dark" href="{% url 'stud_home'%}">{{request.user|group_name}}</a>
+              <a class="dropdown-item text-dark" href="#" data-toggle="modal" data-target="#logout-confirm">Log out</a>
+              {% else %}
+              <a class="dropdown-item text-dark" href="{% url 'add_assignment'%}">Add Assignments</a>
+              <a class="dropdown-item text-dark" href="{% url 'teacher_home'%}">{{request.user|group_name}}</a>
+              <a class="dropdown-item text-dark" href="#" data-toggle="modal" data-target="#logout-confirm">Log out</a>
+              {% endif %}
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Log in</a>
+            <div class="dropdown-menu" aria-labelledby="loginDropdown">
+              <a href="{% url 'stud_login' %}" class="dropdown-item">Student Login</a>
+              <a href="{% url 'teacher_login'%}" class="dropdown-item">Teacher Login</a>
+
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="signupDropdown" role="button" aria-haspopup="true"
+              data-toggle="dropdown" aria-expanded="false">Sign up</a>
+            <div class="dropdown-menu" aria-labelledby="singupDropdown">
+              <a href="{% url 'stud_register' %}" class="dropdown-item">Student SingUp</a>
+              <a href="{% url 'teacher_register' %}" class="dropdown-item">Teacher SingUp</a>
+
+            </div>
+          </li>
+          {% endif %}
+          {% if request.user|has_group:"Student" %}
+          <li
+            class="nav-item d-none d-lg-block {% if request.get_full_path == '/#notifications' %}nav-active{% endif %} dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Notfications</a>
+            <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuLink">
+              {% if notifications %}
+              {% for notification in notifications %}
+              <div class="row">
+                <div class="col-12">
+                  <h5><a href="/student/assignment/{{notification.assignment.slug}}" class="nav-link">New Assignment for
+                      {{notification.assignment.subject.subject_name}} by {{notification.assignment.teacher.first_name}}
+                      {{notification.assignment.teacher.last_name}}</a></h5>
+                  {% load humanize %}
+                  <div class="col py-0 my-0 text-right"><small>{{notification.date_filled|naturaltime}}</small></div>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <h5 class="text-center">No Notifications</h5>
+              {% endif %}
+            </div>
+          </li>
+
+          {% elif request.user|has_group:"Teacher" %}
+          <li
+            class="nav-item d-none d-lg-block {% if request.get_full_path == '/#notifications' %}nav-active{% endif %} dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Notfications</a>
+            <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuLink">
+              {% if notifications %}
+          {% for notification in notifications %}
+          <div class="row">
+            <div class="col-12">
+              <h5><a href="/teacher/assignment_status/{{notification.assignment.slug}}"
+                  class="nav-link">{{notification.student.first_name}} {{notification.student.last_name}} submited
+                  {{notification.assignment.subject.subject_name}} assignment of
+                  {{notification.assignment.ass_class}}</a></h5>
+              {% load humanize %}
+              <div class="col py-0 my-0 text-right"><small>{{notification.date_filled|naturaltime}}</small></div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <h5 class="text-center">No Notifications</h5>
+          {% endif %}
+            </div>
+          </li>
+
+          {% endif %}
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+      </div>
+    </nav>
+  </header>
+  <!-- MODAL FRAME -->
+  <div class="modal fade" id="logout-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirm LogOut</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are You Sure want to Log out
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a type="button" class="btn btn-primary" href="{% url 'logout' %}">Sure</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% block body %}
+  {% endblock %}
+
+  <section id="footer" style="position: relative;bottom: 0;left: 0" class="bg-light text-secondary">
+    <h5 class="text-center">
+      Developed By <strong>DNYANESHWAR PVT LTD</strong>
+    </h5>
+    <div class="cont w-100 d-flex justify-content-center  ">
+      <a href="https://github.com/dnyanesh2" class="text-secondary" target="_blank"><i
+          class="fa fa-3x fa-github"></i></a>
+    </div>
+  </section>
+
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          },
+            false);
+        });
+      }, false);
+    })();
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  {% block script %}
+
+  {% endblock script %}
+</body>
+
+</html>

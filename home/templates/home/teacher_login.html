@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Teacher Login{% endblock %}
+{% block body %}
+<div class="container mt-3">
+  <h3 class="text-center">Teacher Login</h3>
+  <form class="w-50 mx-auto" action="" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <!-- <label for="control">Control Number</label> -->
+          <input type="text" name="control" class="form-control" id="control" placeholder="Control Number" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+        <input type="submit" name="" id="" value="Log in" class="btn btn-info" />
+        </div>
+      </div>
+      
+    </div>
+  </form>
+</div>
+
+{% endblock %}
+

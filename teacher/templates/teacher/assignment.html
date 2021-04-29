@@ -8,10 +8,10 @@
     <h4><Strong>Class : </Strong>{{assignment.ass_class}}</h4>
     <h4><Strong>Date : </Strong>{{assignment.date}}</h4>
   </div>
-  {% if assignment.ass_type == "MCQ" %}
+  {% if assignment.ass_type == "Multiple Choice Questions" %}
     
     <div class="mcq">
-      <h4 class="text-center">MCQs</h4>
+      <h4 class="text-center">Multiple Choice Questions</h4>
       <div class="table-responsive ">
         <table class="table table-hover table-bordered">
           <thead>
@@ -112,7 +112,7 @@
     
   {% else %}
   <div class="upload">
-    <h4 class="text-center">File upload</h4>
+    <h4 class="text-center">Theory Questions </h4>
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
